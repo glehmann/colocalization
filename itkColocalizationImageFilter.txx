@@ -49,8 +49,8 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   // Create a histogram of the image intensities
   typename HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
   histogramGenerator->SetInput(  compose->GetOutput()  );
-//   histogramGenerator->SetMaskImage( this->GetMaskImage()  );
-//   histogramGenerator->SetMaskValue( m_MaskValue );
+  histogramGenerator->SetMaskImage( this->GetMaskImage()  );
+  histogramGenerator->SetMaskValue( m_MaskValue );
   histogramGenerator->SetNumberOfBins( m_NumberOfBins );
   // progress->RegisterInternalFilter(histogramGenerator,.5f);
   histogramGenerator->Compute();

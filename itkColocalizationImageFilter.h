@@ -82,7 +82,7 @@ public:
   typedef itk::Vector< unsigned char, 2 > VectorType;
   typedef itk::Image< VectorType, ImageDimension > VectorImageType;
   typedef itk::Compose2DVectorImageFilter< InputImageType, VectorImageType > ComposeType;
-  typedef itk::Statistics::ImageToHistogramGenerator< VectorImageType/*, MaskImageType*/ > HistogramGeneratorType;
+  typedef itk::Statistics::ImageToHistogramGenerator< VectorImageType, MaskImageType > HistogramGeneratorType;
   typedef typename HistogramGeneratorType::HistogramType HistogramType;
   typedef ColocalizationCalculator< HistogramType > CalculatorType;
   typedef itk::HistogramToLogProbabilityImageFilter< HistogramType > LogType;
