@@ -13,7 +13,7 @@
 int main(int argc, char * argv[])
 {
 
-  if( argc != 4 )
+  if( argc != 5 ) 
     {
     std::cerr << "usage: " << argv[0] << " " << std::endl;
     // std::cerr << "  : " << std::endl;
@@ -34,9 +34,13 @@ int main(int argc, char * argv[])
   reader2->SetFileName( argv[2] );
 
   typedef itk::ColocalizationImageFilter< IType > ColocType;
+  ReaderType::Pointer reader3 = ReaderType::New();
+  reader3->SetFileName( argv[3] );
+
   ColocType::Pointer coloc = ColocType::New();
   coloc->SetInput( 0, reader1->GetOutput() );
   coloc->SetInput( 1, reader2->GetOutput() );
+  coloc->SetMaskImage( reader3->GetOutput() );
   coloc->Update();
   std::cout << "Pearson: " << coloc->GetPearson() << std::endl;
   std::cout << "Overlap: " << coloc->GetOverlap() << std::endl;
@@ -46,7 +50,7 @@ int main(int argc, char * argv[])
   typedef itk::ImageFileWriter< IType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( coloc->GetOutput() );
-  writer->SetFileName( argv[3] );
+  writer->SetFileName( argv[4] );
   writer->Update();
   
 
