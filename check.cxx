@@ -5,11 +5,10 @@
 
 #include "itkVector.h"
 #include "itkImageToHistogramGenerator.h"
-#include "itkImageToHistogramGenerator.h"
 #include "itkCompose2DVectorImageFilter.h"
 #include <itkHistogramToLogProbabilityImageFilter.h>
 #include <itkRescaleIntensityImageFilter.h>
-#include "itkColocalizationCalculator.h"
+#include "itkColocalizationImageFilter.h"
 
 int main(int argc, char * argv[])
 {
@@ -26,9 +25,6 @@ int main(int argc, char * argv[])
   typedef unsigned char PType;
   typedef itk::Image< PType, dim > IType;
 
-  typedef itk::Vector< unsigned char, 2 > VType;
-  typedef itk::Image< VType, dim > VIType;
-
   typedef itk::ImageFileReader< IType > ReaderType;
 
   ReaderType::Pointer reader1 = ReaderType::New();
@@ -37,40 +33,19 @@ int main(int argc, char * argv[])
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
 
-  typedef itk::Compose2DVectorImageFilter< IType, VIType > ComposeType;
-  ComposeType::Pointer compose = ComposeType::New();
-  compose->SetInput1( reader1->GetOutput() );
-  compose->SetInput2( reader2->GetOutput() );
-  compose->Update();
-
-  typedef itk::Statistics::ImageToHistogramGenerator< VIType > FilterType;
-  FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( compose->GetOutput() );
-/*  FilterType::SizeType s;
-  s.Fill( 256 );
-  filter->SetNumberOfBins( s );*/
-  filter->Compute();
-
-  typedef itk::ColocalizationCalculator< FilterType::HistogramType > ColocType;
+  typedef itk::ColocalizationImageFilter< IType > ColocType;
   ColocType::Pointer coloc = ColocType::New();
-  coloc->SetInputHistogram( filter->GetOutput() );
+  coloc->SetInput( 0, reader1->GetOutput() );
+  coloc->SetInput( 1, reader2->GetOutput() );
   coloc->Update();
   std::cout << "Pearson: " << coloc->GetPearson() << std::endl;
   std::cout << "Overlap: " << coloc->GetOverlap() << std::endl;
   std::cout << "Overlap1: " << coloc->GetOverlap1() << std::endl;
   std::cout << "Overlap2: " << coloc->GetOverlap2() << std::endl;
 
-  typedef itk::HistogramToLogProbabilityImageFilter< FilterType::HistogramType > LogType;
-  LogType::Pointer log = LogType::New();
-  log->SetInput( filter->GetOutput() );
-  
-  typedef itk::RescaleIntensityImageFilter< LogType::OutputImageType, IType> RescaleType;
-  RescaleType::Pointer rescale = RescaleType::New();
-  rescale->SetInput( log->GetOutput() );
-
   typedef itk::ImageFileWriter< IType > WriterType;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( rescale->GetOutput() );
+  writer->SetInput( coloc->GetOutput() );
   writer->SetFileName( argv[3] );
   writer->Update();
   
