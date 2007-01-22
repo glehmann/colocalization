@@ -89,13 +89,14 @@ public:
   typedef itk::RescaleIntensityImageFilter< typename LogType::OutputImageType, OutputImageType > RescaleType;
 
   typedef typename HistogramType::MeasurementType MeasurementType;
+  typedef typename HistogramType::SizeType HistogramSizeType;
 
   itkSetMacro(MaskValue, MaskPixelType);
   itkGetMacro(MaskValue, MaskPixelType);
 
   /** Set/Get the number of histogram bins. Default is 128. */
-  itkSetClampMacro( NumberOfHistogramBins, unsigned long, 1, NumericTraits<unsigned long>::max() );
-  itkGetConstMacro( NumberOfHistogramBins, unsigned long );
+  itkSetMacro( NumberOfBins, HistogramSizeType );
+  itkGetConstMacro( NumberOfBins, HistogramSizeType );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -144,8 +145,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   MaskPixelType m_MaskValue;
-  unsigned int m_NumberOfIterations;
-  unsigned long       m_NumberOfHistogramBins;
+  HistogramSizeType m_NumberOfBins;
 
   MeasurementType m_Pearson;
   MeasurementType m_Overlap1;

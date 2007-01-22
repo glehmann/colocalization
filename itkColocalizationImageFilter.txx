@@ -28,7 +28,7 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::ColocalizationImageFilter()
 {
   m_MaskValue = NumericTraits<MaskPixelType>::max();
-  m_NumberOfHistogramBins = 128;
+  m_NumberOfBins.Fill( 128 );
   this->SetNumberOfRequiredInputs( 2 );
 }
 
@@ -51,7 +51,7 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   histogramGenerator->SetInput(  compose->GetOutput()  );
 //   histogramGenerator->SetMaskImage( this->GetMaskImage()  );
 //   histogramGenerator->SetMaskValue( m_MaskValue );
-//   histogramGenerator->SetNumberOfBins( m_NumberOfHistogramBins );
+  histogramGenerator->SetNumberOfBins( m_NumberOfBins );
   // progress->RegisterInternalFilter(histogramGenerator,.5f);
   histogramGenerator->Compute();
 
