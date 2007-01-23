@@ -71,12 +71,10 @@ ImageToHistogramGenerator< TImage, TMaskImage >
 {
   if( m_ListGenerator->GetMaskImage() )
     {
-std::cout << "Generator " << m_HistogramGenerator2->GetOutput()->GetTotalFrequency() << std::endl;
     return m_HistogramGenerator2->GetOutput();
     }
   else
     {
-std::cout << "Adaptor " << m_HistogramGenerator->GetOutput()->GetTotalFrequency() << std::endl;
     return m_HistogramGenerator->GetOutput();
     }
 }
@@ -90,7 +88,6 @@ ImageToHistogramGenerator< TImage, TMaskImage >
 {
   if( m_ListGenerator->GetMaskImage() )
     {
-std::cout << "Generator" << std::endl;
     m_ListGenerator->SetMaskValue( m_MaskValue );
     m_ListGenerator->Update();
     m_HistogramGenerator2->Update();
@@ -98,7 +95,6 @@ std::cout << "Generator" << std::endl;
     }
   else
     {
-std::cout << "Adaptor" << std::endl;
     // m_HistogramGenerator->SetListSample( m_ImageToListAdaptor );
     m_HistogramGenerator->Update();
     }
