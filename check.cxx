@@ -33,19 +33,16 @@ int main(int argc, char * argv[])
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
 
-  typedef itk::ColocalizationImageFilter< IType > ColocType;
   ReaderType::Pointer reader3 = ReaderType::New();
   reader3->SetFileName( argv[3] );
 
+  typedef itk::ColocalizationImageFilter< IType > ColocType;
   ColocType::Pointer coloc = ColocType::New();
   coloc->SetInput( 0, reader1->GetOutput() );
   coloc->SetInput( 1, reader2->GetOutput() );
   coloc->SetMaskImage( reader3->GetOutput() );
-  coloc->Update();
-  std::cout << "Pearson: " << coloc->GetPearson() << std::endl;
-  std::cout << "Overlap: " << coloc->GetOverlap() << std::endl;
-  std::cout << "Overlap1: " << coloc->GetOverlap1() << std::endl;
-  std::cout << "Overlap2: " << coloc->GetOverlap2() << std::endl;
+
+  itk::SimpleFilterWatcher watcher( coloc, "coloc" );
 
   typedef itk::ImageFileWriter< IType > WriterType;
   WriterType::Pointer writer = WriterType::New();
@@ -53,6 +50,10 @@ int main(int argc, char * argv[])
   writer->SetFileName( argv[4] );
   writer->Update();
   
+  std::cout << "Pearson: " << coloc->GetPearson() << std::endl;
+  std::cout << "Overlap: " << coloc->GetOverlap() << std::endl;
+  std::cout << "Overlap1: " << coloc->GetOverlap1() << std::endl;
+  std::cout << "Overlap2: " << coloc->GetOverlap2() << std::endl;
 
   return 0;
 }

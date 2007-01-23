@@ -44,6 +44,7 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   typename ComposeType::Pointer compose = ComposeType::New();
   compose->SetInput1( this->GetInput( 0 ) );
   compose->SetInput2( this->GetInput( 1 ) );
+  progress->RegisterInternalFilter( compose, .4f );
   compose->Update();
 
   // Create a histogram of the image intensities
@@ -55,7 +56,7 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   // progress->RegisterInternalFilter(histogramGenerator,.5f);
   histogramGenerator->Compute();
 
-  // Compute the Threshold for the input image
+  // Compute the colocalization values for the input image
   typename CalculatorType::Pointer calculator = CalculatorType::New();
   calculator->SetInputHistogram( histogramGenerator->GetOutput() );
   calculator->Update();
@@ -67,9 +68,11 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   typename LogType::Pointer log = LogType::New();
   log->SetInput( histogramGenerator->GetOutput() );
   log->Update(); // fixed in itk 3.2, but required before that
+  progress->RegisterInternalFilter( log, .3f );
   
   typename RescaleType::Pointer rescale = RescaleType::New();
   rescale->SetInput( log->GetOutput() );
+  progress->RegisterInternalFilter( rescale, .3f );
 
   rescale->GraftOutput (this->GetOutput());
   rescale->Update();
@@ -96,8 +99,8 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   // Set the image size to the number of bins along each dimension.
   typename OutputImageType::SizeType size;
   for( unsigned int i=0; i< ImageDimension; i++)
-    { 
-    size[i] = 128;
+    {
+    size[i] = m_NumberOfBins[i];
     }
 
   // Set output image params and Allocate image
