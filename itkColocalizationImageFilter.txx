@@ -28,6 +28,10 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::ColocalizationImageFilter()
 {
   m_MaskValue = NumericTraits<MaskPixelType>::max();
+  m_Pearson = 0;
+  m_Overlap1 = 0;
+  m_Overlap2 = 0;
+  m_Overlap = 0;
   m_NumberOfBins.Fill( 128 );
   this->SetNumberOfRequiredInputs( 2 );
 }

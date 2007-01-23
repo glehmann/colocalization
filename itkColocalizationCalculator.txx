@@ -27,6 +27,10 @@ template<class TInputHistogram>
 ColocalizationCalculator<TInputHistogram>
 ::ColocalizationCalculator()
 {
+  m_Pearson = 0;
+  m_Overlap1 = 0;
+  m_Overlap2 = 0;
+  m_Overlap = 0;
   m_Threshold.Fill( NumericTraits< MeasurementType >::Zero );
 }
 
