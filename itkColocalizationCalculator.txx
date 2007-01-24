@@ -149,6 +149,7 @@ ColocalizationCalculator<TInputHistogram>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+  os << indent << "Threshold: " << m_Threshold << std::endl;
   os << indent << "Pearson: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Pearson) << std::endl;
   os << indent << "Overlap1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap1) << std::endl;
   os << indent << "Overlap2: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap2) << std::endl;

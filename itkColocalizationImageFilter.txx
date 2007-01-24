@@ -35,6 +35,7 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   m_Contribution1 = 0;
   m_Contribution2 = 0;
   m_NumberOfBins.Fill( 128 );
+  m_Threshold.Fill( NumericTraits< MeasurementType >::Zero );
   this->SetNumberOfRequiredInputs( 2 );
 }
 
@@ -65,6 +66,7 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   // Compute the colocalization values for the input image
   typename CalculatorType::Pointer calculator = CalculatorType::New();
   calculator->SetInputHistogram( histogramGenerator->GetOutput() );
+  calculator->SetThreshold( m_Threshold );
   calculator->Update();
   m_Pearson = calculator->GetPearson();
   m_Overlap1 = calculator->GetOverlap1();
@@ -125,6 +127,7 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
+  os << indent << "Threshold: " << m_Threshold << std::endl;
   os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_MaskValue) << std::endl;
   os << indent << "Pearson: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Pearson) << std::endl;
   os << indent << "Overlap1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap1) << std::endl;

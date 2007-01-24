@@ -126,6 +126,9 @@ public:
      this->SetMaskImage( input );
      }
 
+  itkSetMacro(Threshold, MeasurementVectorType);
+  itkGetConstMacro(Threshold, MeasurementVectorType);
+
   itkGetConstMacro(Pearson, MeasurementType);
   itkGetConstMacro(Overlap1, MeasurementType);
   itkGetConstMacro(Overlap2, MeasurementType);
@@ -145,6 +148,8 @@ protected:
 private:
   ColocalizationImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  MeasurementVectorType m_Threshold ;
 
   MaskPixelType m_MaskValue;
   HistogramSizeType m_NumberOfBins;
