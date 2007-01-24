@@ -32,10 +32,15 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   m_Overlap1 = 0;
   m_Overlap2 = 0;
   m_Overlap = 0;
+  m_ColocalizedPearson = 0;
+  m_ColocalizedOverlap1 = 0;
+  m_ColocalizedOverlap2 = 0;
+  m_ColocalizedOverlap = 0;
   m_Contribution1 = 0;
   m_Contribution2 = 0;
   m_NumberOfBins.Fill( 128 );
   m_Threshold.Fill( NumericTraits< MeasurementType >::Zero );
+  m_ComputeThreshold = true;
   this->SetNumberOfRequiredInputs( 2 );
 }
 
@@ -66,12 +71,18 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   // Compute the colocalization values for the input image
   typename CalculatorType::Pointer calculator = CalculatorType::New();
   calculator->SetInputHistogram( histogramGenerator->GetOutput() );
+  calculator->SetComputeThreshold( m_ComputeThreshold );
   calculator->SetThreshold( m_Threshold );
   calculator->Update();
+  m_Threshold = calculator->GetThreshold();
   m_Pearson = calculator->GetPearson();
   m_Overlap1 = calculator->GetOverlap1();
   m_Overlap2 = calculator->GetOverlap2();
   m_Overlap = calculator->GetOverlap();
+  m_ColocalizedPearson = calculator->GetColocalizedPearson();
+  m_ColocalizedOverlap1 = calculator->GetColocalizedOverlap1();
+  m_ColocalizedOverlap2 = calculator->GetColocalizedOverlap2();
+  m_ColocalizedOverlap = calculator->GetColocalizedOverlap();
   m_Contribution1 = calculator->GetContribution1();
   m_Contribution2 = calculator->GetContribution2();
 
@@ -128,11 +139,16 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "ComputeThreshold: " << m_ComputeThreshold << std::endl;
   os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_MaskValue) << std::endl;
   os << indent << "Pearson: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Pearson) << std::endl;
   os << indent << "Overlap1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap1) << std::endl;
   os << indent << "Overlap2: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap2) << std::endl;
   os << indent << "Overlap: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap) << std::endl;
+  os << indent << "ColocalizedPearson: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedPearson) << std::endl;
+  os << indent << "ColocalizedOverlap1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedOverlap1) << std::endl;
+  os << indent << "ColocalizedOverlap2: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedOverlap2) << std::endl;
+  os << indent << "ColocalizedOverlap: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedOverlap) << std::endl;
   os << indent << "Contribution1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Contribution1) << std::endl;
   os << indent << "Contribution2: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Contribution2) << std::endl;
 }

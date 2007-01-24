@@ -128,10 +128,17 @@ public:
   itkSetMacro(Threshold, MeasurementVectorType);
   itkGetConstMacro(Threshold, MeasurementVectorType);
 
+  itkSetMacro(ComputeThreshold, bool);
+  itkGetConstMacro(ComputeThreshold, bool);
+
   itkGetConstMacro(Pearson, MeasurementType);
   itkGetConstMacro(Overlap1, MeasurementType);
   itkGetConstMacro(Overlap2, MeasurementType);
   itkGetConstMacro(Overlap, MeasurementType);
+  itkGetConstMacro(ColocalizedPearson, MeasurementType);
+  itkGetConstMacro(ColocalizedOverlap1, MeasurementType);
+  itkGetConstMacro(ColocalizedOverlap2, MeasurementType);
+  itkGetConstMacro(ColocalizedOverlap, MeasurementType);
   itkGetConstMacro(Contribution1, MeasurementType);
   itkGetConstMacro(Contribution2, MeasurementType);
 
@@ -149,6 +156,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   MeasurementVectorType m_Threshold ;
+  bool m_ComputeThreshold;
 
   MaskPixelType m_MaskValue;
   HistogramSizeType m_NumberOfBins;
@@ -157,6 +165,10 @@ private:
   MeasurementType m_Overlap1;
   MeasurementType m_Overlap2;
   MeasurementType m_Overlap;
+  MeasurementType m_ColocalizedPearson;
+  MeasurementType m_ColocalizedOverlap1;
+  MeasurementType m_ColocalizedOverlap2;
+  MeasurementType m_ColocalizedOverlap;
   MeasurementType m_Contribution1;
   MeasurementType m_Contribution2;
 

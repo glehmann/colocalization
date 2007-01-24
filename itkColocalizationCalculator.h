@@ -61,10 +61,17 @@ public:
   itkSetMacro(Threshold, MeasurementVectorType);
   itkGetConstMacro(Threshold, MeasurementVectorType);
 
+  itkSetMacro(ComputeThreshold, bool);
+  itkGetConstMacro(ComputeThreshold, bool);
+
   itkGetConstMacro(Pearson, MeasurementType);
   itkGetConstMacro(Overlap1, MeasurementType);
   itkGetConstMacro(Overlap2, MeasurementType);
   itkGetConstMacro(Overlap, MeasurementType);
+  itkGetConstMacro(ColocalizedPearson, MeasurementType);
+  itkGetConstMacro(ColocalizedOverlap1, MeasurementType);
+  itkGetConstMacro(ColocalizedOverlap2, MeasurementType);
+  itkGetConstMacro(ColocalizedOverlap, MeasurementType);
   itkGetConstMacro(Contribution1, MeasurementType);
   itkGetConstMacro(Contribution2, MeasurementType);
 
@@ -77,15 +84,23 @@ protected:
 
   /** Calculates the thresholds and save them */
   void GenerateData() ;
+  void ComputeNonThresholdedValues() ;
+  void ComputeThreshold() ;
+  void ComputeThresholdedValues() ;
 
 private:
   /** Internal thresholds storage */
   MeasurementVectorType m_Threshold ;
+  bool m_ComputeThreshold;
 
   MeasurementType m_Pearson;
   MeasurementType m_Overlap1;
   MeasurementType m_Overlap2;
   MeasurementType m_Overlap;
+  MeasurementType m_ColocalizedPearson;
+  MeasurementType m_ColocalizedOverlap1;
+  MeasurementType m_ColocalizedOverlap2;
+  MeasurementType m_ColocalizedOverlap;
   MeasurementType m_Contribution1;
   MeasurementType m_Contribution2;
 
