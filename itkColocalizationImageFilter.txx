@@ -152,15 +152,15 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   os << indent << "Pearson: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Pearson) << std::endl;
   os << indent << "Slope: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Slope) << std::endl;
   os << indent << "Intercept: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Intercept) << std::endl;
+  os << indent << "Overlap: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap) << std::endl;
   os << indent << "Overlap1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap1) << std::endl;
   os << indent << "Overlap2: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap2) << std::endl;
-  os << indent << "Overlap: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap) << std::endl;
   os << indent << "ColocalizedPearson: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedPearson) << std::endl;
   os << indent << "ColocalizedSlope: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedSlope) << std::endl;
   os << indent << "ColocalizedIntercept: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedIntercept) << std::endl;
+  os << indent << "ColocalizedOverlap: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedOverlap) << std::endl;
   os << indent << "ColocalizedOverlap1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedOverlap1) << std::endl;
   os << indent << "ColocalizedOverlap2: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedOverlap2) << std::endl;
-  os << indent << "ColocalizedOverlap: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedOverlap) << std::endl;
   os << indent << "Contribution1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Contribution1) << std::endl;
   os << indent << "Contribution2: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Contribution2) << std::endl;
 }
