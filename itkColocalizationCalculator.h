@@ -81,6 +81,7 @@ public:
 
   MeasurementType Mean( unsigned int dim ) const;
   MeasurementType ThresholdedMean( unsigned int dim, MeasurementType threshold ) const;
+  MeasurementType LowerThresholdedMean( unsigned int dim, MeasurementType threshold ) const;
 
 protected:
   ColocalizationCalculator();

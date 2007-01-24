@@ -94,6 +94,32 @@ ColocalizationCalculator<TInputHistogram>
 
 
 template<class TInputHistogram>
+typename ColocalizationCalculator<TInputHistogram>::MeasurementType
+ColocalizationCalculator<TInputHistogram>
+::LowerThresholdedMean( unsigned int dim, MeasurementType threshold ) const
+{
+  typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
+  MeasurementType mean = NumericTraits<MeasurementType>::Zero;
+  MeasurementType total = 0;
+
+  for (unsigned int i = 0; i < histogram->GetSize( dim ); i++)
+    {
+    MeasurementType val = histogram->GetMeasurement( i, dim );
+    if( val <= threshold )
+      {
+      FrequencyType freq = histogram->GetFrequency( i, dim );
+      mean += val * freq;
+      total += freq;
+      }
+    }
+
+  mean /= total;
+
+  return mean;
+}
+
+
+template<class TInputHistogram>
 void
 ColocalizationCalculator<TInputHistogram>
 ::ComputeNonThresholdedValues()
@@ -158,7 +184,66 @@ ColocalizationCalculator<TInputHistogram>
 {
   typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
 
-  // TODO
+  for (int iStop = histogram->GetSize( 0 ) - 1; iStop >= 0; iStop--)
+    {
+    const MeasurementType & th0 = histogram->GetMeasurement( iStop, 0 );
+    MeasurementType th1 = m_Slope * th0 + m_Intercept;
+
+    MeasurementType mean0 = LowerThresholdedMean( 0, th0 );
+    MeasurementType mean1 = LowerThresholdedMean( 1, th1 );
+  
+    MeasurementType pearsonNum = 0;
+    MeasurementType pearsonDen0 = 0;
+    MeasurementType pearsonDen1 = 0;
+  
+    MeasurementType s0s1 = 0;
+    MeasurementType s0_2 = 0;
+    MeasurementType s1_2 = 0;
+  
+    for (unsigned int i = 0; i <= iStop; i++)
+      {
+  
+      const MeasurementType & s0 = histogram->GetMeasurement( i, 0 );
+      MeasurementType dev0 = s0 - mean0;
+  
+      for (unsigned int j = 0; j < histogram->GetSize( 1 ); j++)
+        {
+        const MeasurementType & s1 = histogram->GetMeasurement( j, 1 );
+  
+        typename HistogramType::IndexType index;
+        index[0] = i;
+        index[1] = j;
+        const FrequencyType & freq = histogram->GetFrequency( index );
+  
+        MeasurementType dev1 = s1 - mean1;
+  
+      if( /*s0 <= m_Threshold[0] &&*/ s1 <= m_Threshold[1] )
+        {
+        pearsonNum += freq * dev0 * dev1;
+        pearsonDen0 += freq * vcl_pow( dev0, 2 );
+        pearsonDen1 += freq * vcl_pow( dev1, 2 );
+  
+        s0s1 += freq * s0 * s1;
+        s0_2 += freq * vcl_pow( s0, 2 );
+        s1_2 += freq * vcl_pow( s1, 2 );
+        }
+  
+        }
+      }
+  
+    MeasurementType pearson = pearsonNum / vcl_sqrt( pearsonDen0 * pearsonDen1 );
+//     std::cout << "iStop: " << iStop << "th0: " << th0 << "  th1: " << th1 << "  pearson: " << pearson << std::endl;
+
+    if( pearson <= 0 )
+      {
+      m_Threshold[0] = th0;
+      m_Threshold[1] = th1;
+      return;
+      }
+    }
+
+  m_Threshold[0] = histogram->GetMeasurement( 0, 0 );
+  m_Threshold[1] = histogram->GetMeasurement( 0, 1 );
 }
 
 
