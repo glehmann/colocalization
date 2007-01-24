@@ -132,10 +132,14 @@ public:
   itkGetConstMacro(ComputeThreshold, bool);
 
   itkGetConstMacro(Pearson, MeasurementType);
+  itkGetConstMacro(Slope, MeasurementType);
+  itkGetConstMacro(Intercept, MeasurementType);
   itkGetConstMacro(Overlap1, MeasurementType);
   itkGetConstMacro(Overlap2, MeasurementType);
   itkGetConstMacro(Overlap, MeasurementType);
   itkGetConstMacro(ColocalizedPearson, MeasurementType);
+  itkGetConstMacro(ColocalizedSlope, MeasurementType);
+  itkGetConstMacro(ColocalizedIntercept, MeasurementType);
   itkGetConstMacro(ColocalizedOverlap1, MeasurementType);
   itkGetConstMacro(ColocalizedOverlap2, MeasurementType);
   itkGetConstMacro(ColocalizedOverlap, MeasurementType);
@@ -162,10 +166,14 @@ private:
   HistogramSizeType m_NumberOfBins;
 
   MeasurementType m_Pearson;
+  MeasurementType m_Slope;
+  MeasurementType m_Intercept;
   MeasurementType m_Overlap1;
   MeasurementType m_Overlap2;
   MeasurementType m_Overlap;
   MeasurementType m_ColocalizedPearson;
+  MeasurementType m_ColocalizedSlope;
+  MeasurementType m_ColocalizedIntercept;
   MeasurementType m_ColocalizedOverlap1;
   MeasurementType m_ColocalizedOverlap2;
   MeasurementType m_ColocalizedOverlap;

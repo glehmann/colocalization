@@ -68,10 +68,14 @@ public:
   itkGetConstMacro(Overlap1, MeasurementType);
   itkGetConstMacro(Overlap2, MeasurementType);
   itkGetConstMacro(Overlap, MeasurementType);
+  itkGetConstMacro(Slope, MeasurementType);
+  itkGetConstMacro(Intercept, MeasurementType);
   itkGetConstMacro(ColocalizedPearson, MeasurementType);
   itkGetConstMacro(ColocalizedOverlap1, MeasurementType);
   itkGetConstMacro(ColocalizedOverlap2, MeasurementType);
   itkGetConstMacro(ColocalizedOverlap, MeasurementType);
+  itkGetConstMacro(ColocalizedSlope, MeasurementType);
+  itkGetConstMacro(ColocalizedIntercept, MeasurementType);
   itkGetConstMacro(Contribution1, MeasurementType);
   itkGetConstMacro(Contribution2, MeasurementType);
 
@@ -97,10 +101,14 @@ private:
   MeasurementType m_Overlap1;
   MeasurementType m_Overlap2;
   MeasurementType m_Overlap;
+  MeasurementType m_Slope;
+  MeasurementType m_Intercept;
   MeasurementType m_ColocalizedPearson;
   MeasurementType m_ColocalizedOverlap1;
   MeasurementType m_ColocalizedOverlap2;
   MeasurementType m_ColocalizedOverlap;
+  MeasurementType m_ColocalizedSlope;
+  MeasurementType m_ColocalizedIntercept;
   MeasurementType m_Contribution1;
   MeasurementType m_Contribution2;
 

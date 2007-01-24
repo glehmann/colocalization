@@ -29,10 +29,14 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
 {
   m_MaskValue = NumericTraits<MaskPixelType>::max();
   m_Pearson = 0;
+  m_Slope = 0;
+  m_Intercept = 0;
   m_Overlap1 = 0;
   m_Overlap2 = 0;
   m_Overlap = 0;
   m_ColocalizedPearson = 0;
+  m_ColocalizedSlope = 0;
+  m_ColocalizedIntercept = 0;
   m_ColocalizedOverlap1 = 0;
   m_ColocalizedOverlap2 = 0;
   m_ColocalizedOverlap = 0;
@@ -76,10 +80,14 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   calculator->Update();
   m_Threshold = calculator->GetThreshold();
   m_Pearson = calculator->GetPearson();
+  m_Slope = calculator->GetSlope();
+  m_Intercept = calculator->GetIntercept();
   m_Overlap1 = calculator->GetOverlap1();
   m_Overlap2 = calculator->GetOverlap2();
   m_Overlap = calculator->GetOverlap();
   m_ColocalizedPearson = calculator->GetColocalizedPearson();
+  m_ColocalizedSlope = calculator->GetColocalizedSlope();
+  m_ColocalizedIntercept = calculator->GetColocalizedIntercept();
   m_ColocalizedOverlap1 = calculator->GetColocalizedOverlap1();
   m_ColocalizedOverlap2 = calculator->GetColocalizedOverlap2();
   m_ColocalizedOverlap = calculator->GetColocalizedOverlap();
@@ -142,10 +150,14 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   os << indent << "ComputeThreshold: " << m_ComputeThreshold << std::endl;
   os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_MaskValue) << std::endl;
   os << indent << "Pearson: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Pearson) << std::endl;
+  os << indent << "Slope: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Slope) << std::endl;
+  os << indent << "Intercept: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Intercept) << std::endl;
   os << indent << "Overlap1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap1) << std::endl;
   os << indent << "Overlap2: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap2) << std::endl;
   os << indent << "Overlap: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap) << std::endl;
   os << indent << "ColocalizedPearson: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedPearson) << std::endl;
+  os << indent << "ColocalizedSlope: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedSlope) << std::endl;
+  os << indent << "ColocalizedIntercept: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedIntercept) << std::endl;
   os << indent << "ColocalizedOverlap1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedOverlap1) << std::endl;
   os << indent << "ColocalizedOverlap2: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedOverlap2) << std::endl;
   os << indent << "ColocalizedOverlap: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_ColocalizedOverlap) << std::endl;
