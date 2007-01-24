@@ -68,6 +68,32 @@ ColocalizationCalculator<TInputHistogram>
 
 
 template<class TInputHistogram>
+typename ColocalizationCalculator<TInputHistogram>::MeasurementType
+ColocalizationCalculator<TInputHistogram>
+::ThresholdedMean( unsigned int dim, MeasurementType threshold ) const
+{
+  typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
+  MeasurementType mean = NumericTraits<MeasurementType>::Zero;
+  MeasurementType total = 0;
+
+  for (unsigned int i = 0; i < histogram->GetSize( dim ); i++)
+    {
+    MeasurementType val = histogram->GetMeasurement( i, dim );
+    if( val > threshold )
+      {
+      FrequencyType freq = histogram->GetFrequency( i, dim );
+      mean += val * freq;
+      total += freq;
+      }
+    }
+
+  mean /= total;
+
+  return mean;
+}
+
+
+template<class TInputHistogram>
 void
 ColocalizationCalculator<TInputHistogram>
 ::ComputeNonThresholdedValues()
@@ -143,8 +169,8 @@ ColocalizationCalculator<TInputHistogram>
 {
   typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
 
-  MeasurementType mean0 = Mean( 0 );
-  MeasurementType mean1 = Mean( 1 );
+  MeasurementType mean0 = ThresholdedMean( 0, m_Threshold[0] );
+  MeasurementType mean1 = ThresholdedMean( 1, m_Threshold[1] );
 
   MeasurementType pearsonNum = 0;
   MeasurementType pearsonDen0 = 0;
@@ -211,8 +237,6 @@ ColocalizationCalculator<TInputHistogram>
   m_ColocalizedOverlap1 = s0s1 / s0_2;
   m_ColocalizedOverlap2 = s0s1 / s1_2;
   m_ColocalizedOverlap = s0s1 / vcl_sqrt( s0_2 * s1_2 );
-  // overlap can also be computed that way:
-  //  std::cout << "Overlap': " << vcl_sqrt( m_Overlap1 * m_Overlap2 ) <<std::endl;
 
   m_Contribution1 = s0coloc / s0sum;
   m_Contribution2 = s1coloc / s1sum;

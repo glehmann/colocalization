@@ -80,6 +80,7 @@ public:
   itkGetConstMacro(Contribution2, MeasurementType);
 
   MeasurementType Mean( unsigned int dim ) const;
+  MeasurementType ThresholdedMean( unsigned int dim, MeasurementType threshold ) const;
 
 protected:
   ColocalizationCalculator();
