@@ -32,7 +32,7 @@ namespace itk {
  *
  */
 
-template<class TInputImage, class TMaskImage=Image<unsigned char, TInputImage::ImageDimension>, class TOutputImage=TInputImage>
+template<class TInputImage, class TMaskImage=Image<unsigned char, TInputImage::ImageDimension>, class TOutputImage=Image<unsigned char, 2> >
 class ITK_EXPORT ColocalizationImageFilter : 
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -47,8 +47,6 @@ public:
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension ) ;
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension ) ;
-  itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension ) ;
 
   /** Method for creation through the object factory. */
@@ -79,8 +77,8 @@ public:
   typedef typename TOutputImage::IndexType  OutputIndexType;
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
-  typedef itk::Vector< unsigned char, 2 > VectorType;
-  typedef itk::Image< VectorType, ImageDimension > VectorImageType;
+  typedef itk::Vector< InputPixelType, 2 > VectorType;
+  typedef itk::Image< VectorType, InputImageDimension > VectorImageType;
   typedef itk::Compose2DVectorImageFilter< InputImageType, VectorImageType > ComposeType;
   typedef itk::Statistics::ImageToHistogramGenerator< VectorImageType, MaskImageType > HistogramGeneratorType;
   typedef typename HistogramGeneratorType::HistogramType HistogramType;
@@ -89,6 +87,7 @@ public:
   typedef itk::RescaleIntensityImageFilter< typename LogType::OutputImageType, OutputImageType > RescaleType;
 
   typedef typename HistogramType::MeasurementType MeasurementType;
+  typedef typename HistogramType::MeasurementVectorType MeasurementVectorType;
   typedef typename HistogramType::SizeType HistogramSizeType;
 
   itkSetMacro(MaskValue, MaskPixelType);

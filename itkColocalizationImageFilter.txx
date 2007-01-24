@@ -108,7 +108,7 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   // Set the image size to the number of bins along each dimension.
   typename OutputImageType::SizeType size;
-  for( unsigned int i=0; i< ImageDimension; i++)
+  for( unsigned int i=0; i< OutputImageDimension; i++)
     {
     size[i] = m_NumberOfBins[i];
     }
