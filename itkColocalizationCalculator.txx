@@ -31,6 +31,8 @@ ColocalizationCalculator<TInputHistogram>
   m_Overlap1 = 0;
   m_Overlap2 = 0;
   m_Overlap = 0;
+  m_Contribution1 = 0;
+  m_Contribution2 = 0;
   m_Threshold.Fill( NumericTraits< MeasurementType >::Zero );
 }
 
@@ -80,6 +82,12 @@ ColocalizationCalculator<TInputHistogram>
   MeasurementType s0_2 = 0;
   MeasurementType s1_2 = 0;
 
+  MeasurementType s0coloc = 0;
+  MeasurementType s1coloc = 0;
+
+  MeasurementType s0sum = 0;
+  MeasurementType s1sum = 0;
+
   for (unsigned int i = 0; i < histogram->GetSize( 0 ); i++)
     {
 
@@ -104,6 +112,20 @@ ColocalizationCalculator<TInputHistogram>
       s0s1 += freq * s0 * s1;
       s0_2 += freq * vcl_pow( s0, 2 );
       s1_2 += freq * vcl_pow( s1, 2 );
+
+      s0sum += freq * s0;
+      s1sum += freq * s1;
+
+      if( s0 > m_Threshold[0] )
+        {
+        s1coloc += freq * s1;
+        }
+
+      if( s1 > m_Threshold[1] )
+        {
+        s0coloc += freq * s0;
+        }
+
       }
     }
 
@@ -115,7 +137,11 @@ ColocalizationCalculator<TInputHistogram>
   // overlap can also be computed that way:
   //  std::cout << "Overlap': " << vcl_sqrt( m_Overlap1 * m_Overlap2 ) <<std::endl;
 
+  m_Contribution1 = s0coloc / s0sum;
+  m_Contribution2 = s1coloc / s1sum;
+
 }
+
 
 template<class TInputHistogram>
 void
@@ -127,6 +153,8 @@ ColocalizationCalculator<TInputHistogram>
   os << indent << "Overlap1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap1) << std::endl;
   os << indent << "Overlap2: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap2) << std::endl;
   os << indent << "Overlap: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap) << std::endl;
+  os << indent << "Contribution1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Contribution1) << std::endl;
+  os << indent << "Contribution2: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Contribution2) << std::endl;
 //   os << indent << ": " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_) << std::endl;
 
 }

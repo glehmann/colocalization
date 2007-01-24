@@ -32,6 +32,8 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   m_Overlap1 = 0;
   m_Overlap2 = 0;
   m_Overlap = 0;
+  m_Contribution1 = 0;
+  m_Contribution2 = 0;
   m_NumberOfBins.Fill( 128 );
   this->SetNumberOfRequiredInputs( 2 );
 }
@@ -68,6 +70,8 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   m_Overlap1 = calculator->GetOverlap1();
   m_Overlap2 = calculator->GetOverlap2();
   m_Overlap = calculator->GetOverlap();
+  m_Contribution1 = calculator->GetContribution1();
+  m_Contribution2 = calculator->GetContribution2();
 
   typename LogType::Pointer log = LogType::New();
   log->SetInput( histogramGenerator->GetOutput() );
@@ -126,8 +130,9 @@ ColocalizationImageFilter<TInputImage, TMaskImage, TOutputImage>
   os << indent << "Overlap1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap1) << std::endl;
   os << indent << "Overlap2: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap2) << std::endl;
   os << indent << "Overlap: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Overlap) << std::endl;
+  os << indent << "Contribution1: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Contribution1) << std::endl;
+  os << indent << "Contribution2: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(m_Contribution2) << std::endl;
 }
-
 
 }// end namespace itk
 #endif

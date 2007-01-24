@@ -54,6 +54,8 @@ int main(int argc, char * argv[])
   std::cout << "Overlap: " << coloc->GetOverlap() << std::endl;
   std::cout << "Overlap1: " << coloc->GetOverlap1() << std::endl;
   std::cout << "Overlap2: " << coloc->GetOverlap2() << std::endl;
+  std::cout << "Contribution1: " << coloc->GetContribution1() << std::endl;
+  std::cout << "Contribution2: " << coloc->GetContribution2() << std::endl;
 
   return 0;
 }

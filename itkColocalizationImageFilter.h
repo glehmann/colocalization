@@ -130,6 +130,8 @@ public:
   itkGetConstMacro(Overlap1, MeasurementType);
   itkGetConstMacro(Overlap2, MeasurementType);
   itkGetConstMacro(Overlap, MeasurementType);
+  itkGetConstMacro(Contribution1, MeasurementType);
+  itkGetConstMacro(Contribution2, MeasurementType);
 
 protected:
   ColocalizationImageFilter();
@@ -151,6 +153,8 @@ private:
   MeasurementType m_Overlap1;
   MeasurementType m_Overlap2;
   MeasurementType m_Overlap;
+  MeasurementType m_Contribution1;
+  MeasurementType m_Contribution2;
 
 } ; // end of class
 
