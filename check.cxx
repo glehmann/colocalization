@@ -41,6 +41,12 @@ int main(int argc, char * argv[])
   coloc->SetInput( 0, reader1->GetOutput() );
   coloc->SetInput( 1, reader2->GetOutput() );
   coloc->SetMaskImage( reader3->GetOutput() );
+  ColocType::HistogramSizeType s;
+  s.Fill( 256 );
+  coloc->SetNumberOfBins( s );
+  ColocType::MeasurementVectorType t;
+  t.Fill( 50 );
+  coloc->SetThreshold( t );
 
   itk::SimpleFilterWatcher watcher( coloc, "coloc" );
 
